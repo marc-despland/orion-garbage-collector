@@ -10,12 +10,12 @@ const argv = require('yargs')
 .option('service', {
     alias: 's',
     describe: "Fiware Service",
-    demandOption: true
+    default: ""
   })
 .option('servicepath', {
     alias: 'p',
     describe: "Fiware Service Path",
-    demandOption: true
+    default: ""
   })
 .option('entity', {
     alias: 'e',
@@ -84,12 +84,12 @@ async function garbage(orion, service, servicePath, entities) {
         url: orion+"/v2/op/update",
         data: JSON.stringify(query),
         headers: {
-            'Fiware-Service': service,
-            'Fiware-ServicePath': servicePath,
             'Content-Type': 'application/json'
         },
         json: true
     };
+    if (service!="") request.headers["Fiware-Service"]=service;
+    if (servicePath!="") request.headers["Fiware-ServicePath"]=servicePath;
     try {
         var response =await axios.request(request);
         //console.log(new Date().toISOString()+ " Orion response for "+sensor.id+" : "+response.status);
@@ -120,12 +120,12 @@ async function selectEntities(orion, service, servicePath, entity, type, query) 
     var request={
         method: 'GET',
         url: orion+"/v2/entities?"+orionQuery,
-        headers: {
-            'Fiware-Service': service,
-            'Fiware-ServicePath': servicePath
-        },
+        headers: {},
         json: true
     };
+    if (service!="") request.headers["Fiware-Service"]=service;
+    if (servicePath!="") request.headers["Fiware-ServicePath"]=servicePath;
+
     try {
         var response =await axios.request(request);
         //console.log(new Date().toISOString()+ " Orion response for "+sensor.id+" : "+response.status);
