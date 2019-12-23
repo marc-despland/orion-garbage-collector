@@ -111,7 +111,7 @@ async function selectEntities(orion, service, servicePath, entity, type, query) 
         orionQuery+="id="+encodeURI(entity);
     }
     if (type.search(/\*/)>-1) {
-        orionQuery+="&typePattern"+encodeURI(type);
+        orionQuery+="&typePattern="+encodeURI(type);
     } else {
         orionQuery+="&type="+encodeURI(type);
     }
